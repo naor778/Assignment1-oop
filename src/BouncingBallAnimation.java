@@ -4,7 +4,7 @@ import biuoop.Sleeper;
 
 import java.awt.*;
 
-public class BallAnimation {
+public class BouncingBallAnimation {
     private static final String[] DEFAULT_ARGS = {"100", "100", "2", "3"};
 
     public static void main(String[] args) {
@@ -33,6 +33,18 @@ public class BallAnimation {
         while (true) {
             ball.moveOneStep();
             DrawSurface d = gui.getDrawSurface();
+            ball.drawOn(d);
+            gui.show(d);
+            sleeper.sleepFor(50);  // wait for 50 milliseconds.
+        }
+    }
+    static private void drawAnimation() {
+        GUI gui = new GUI("title",200,200);
+        biuoop.Sleeper sleeper = new biuoop.Sleeper();
+        java.util.Random rand = new java.util.Random();
+        while (true) {
+            DrawSurface d = gui.getDrawSurface();
+            Ball ball = new Ball(new Point(rand.nextInt(200), rand.nextInt(200)),30, java.awt.Color.BLACK);
             ball.drawOn(d);
             gui.show(d);
             sleeper.sleepFor(50);  // wait for 50 milliseconds.

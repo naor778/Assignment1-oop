@@ -25,7 +25,11 @@ public class MultipleBouncingBallsAnimation {
             int x = rand.nextInt(width - 2 * radius) + radius;
             int y = rand.nextInt(height - 2 * radius) + radius;
 
-            Ball ball = new Ball(new Point(x, y), radius, Color.BLACK);
+
+            Color randomColor = new Color(rand.nextInt(256),
+                    rand.nextInt(256),
+                    rand.nextInt(256));
+            Ball ball = new Ball(new Point(x, y), radius, randomColor);
 
             double speed;
             if (radius > 50) {
@@ -36,7 +40,7 @@ public class MultipleBouncingBallsAnimation {
 
             double angle = rand.nextInt(360);
 
-            Velocity v = Velocity.fromAngleAndSpeed(angle, speed);
+            Velocity v = Velocity.fromAngleAndSpeed(90, 2);
             ball.setVelocity(v);
 
             balls[i] = ball;
@@ -46,7 +50,40 @@ public class MultipleBouncingBallsAnimation {
             DrawSurface d = gui.getDrawSurface();
 
             for (Ball ball : balls) {
+
+                double x = ball.getX();
+                double y = ball.getY();
+                double dx = ball.getVelocity().getDx();
+                double dy = ball.getVelocity().getDy();
+
+                int r = ball.getSize();
+
+                // גבולות המסך
+                double leftBound   = 0 + r;
+                double rightBound  = width - r;
+                double topBound    = 0 + r;
+                double bottomBound = height - r;
+
+                double nextX = x + dx;
+                double nextY = y + dy;
+
+                // קפיצה משמאל / ימין
+                if (nextX < leftBound || nextX > rightBound) {
+                    dx = -dx;
+                }
+
+                // קפיצה מלמעלה / למטה
+                if (nextY < topBound || nextY > bottomBound) {
+                    dy = -dy;
+                }
+
+                // עדכון המהירות החדשה לכדור
+                ball.setVelocity(dx, dy);
+
+                // תנועה צעד אחד
                 ball.moveOneStep();
+
+                // ציור הכדור
                 ball.drawOn(d);
             }
 

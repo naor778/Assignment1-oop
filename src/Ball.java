@@ -49,4 +49,8 @@ public class Ball {
         surface.setColor(this.color);
         surface.fillCircle(getX(),getY(),getSize());
     }
+
+    public void setVelocity(double dx, double dy){
+        this.velocity=new Velocity(dx,dy);
+    }
 }

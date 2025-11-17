@@ -22,14 +22,13 @@ public class Velocity {
         return dy;
     }
     public static Velocity fromAngleAndSpeed(double angle, double speed) {
-        // angle במעלות, 0 זה למעלה, 90 זה ימינה וכו'
+
         double radians = Math.toRadians(angle);
 
-        // בגלל שמערכת הצירים של המסך היא "עם y הפוך":
-        // למעלה זה y קטן יותר, למטה זה y גדול יותר
         double dx = speed * Math.sin(radians);
         double dy = -speed * Math.cos(radians);
 
         return new Velocity(dx, dy);
     }
+
 }

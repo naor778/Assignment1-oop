@@ -150,4 +150,8 @@ public class Ball implements Sprite{
     public void setGameEnvironment(GameEnvironment gameEnvironment) {
         this.gameEnvironment = gameEnvironment;
     }
+    public void addToGame(Game g) {
+        g.addSprite(this);
+    }
+
 }

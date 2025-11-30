@@ -39,37 +39,41 @@ public class Ball implements Sprite{
         return this.velocity;
     }
     public void moveOneStep() {
-        if (this.gameEnvironment == null) {
+        if (this.gameEnvironment == null || this.velocity == null) {
             this.center = this.getVelocity().applyToPoint(this.center);
             return;
         }
 
         // 1. מסלול מהנקודה הנוכחית לנקודה הבאה
-        Point current = this.center;
-        Point next = this.velocity.applyToPoint(this.center);
-        Line trajectory = new Line(current, next);
+        Point start = this.center;
+        Point end = this.velocity.applyToPoint(this.center);
+        Line trajectory = new Line(start, end);
 
         // 2. בדיקה האם יש התנגשות בדרך
         CollisionInfo info = this.gameEnvironment.getClosestCollision(trajectory);
 
         if (info == null) {
-            // אין התנגשות – פשוט זזים
-            this.center = next;
-        } else {
-            // יש עצם מתנגש
-            Point collisionPoint = info.collisionPoint();
-            Collidable object = info.collisionObject();
-
-            // להזיז את הכדור טיפה לפני נקודת ההתנגשות
-            double epsilon = 0.001;
-            double newX = collisionPoint.getX() - this.velocity.getDx() * epsilon;
-            double newY = collisionPoint.getY() - this.velocity.getDy() * epsilon;
-            this.center = new Point(newX, newY);
-
-            // לחשב מהירות חדשה דרך hit של האובייקט
-            this.velocity = object.hit(collisionPoint, this.velocity);
+            // אין התנגשות – זזים כרגיל
+            this.center = end;
+            return;
         }
+
+        // 3. יש התנגשות
+        Point collisionPoint = info.collisionPoint();
+        Collidable object = info.collisionObject();
+
+        // קודם מחשבים מהירות חדשה לפי האובייקט שפגענו בו
+        Velocity newVelocity = object.hit(collisionPoint, this.velocity);
+
+        // 4. מזיזים את הכדור "חוצה" מהבלוק לפי ה־*מהירות החדשה*
+        double eps = 0.01; // אתה יכול לשחק עם הערך: 0.01–1
+        double newX = collisionPoint.getX() + newVelocity.getDx() * eps;
+        double newY = collisionPoint.getY() + newVelocity.getDy() * eps;
+
+        this.center = new Point(newX, newY);
+        this.velocity = newVelocity;
     }
+
 
     @Override
     public void timePassed() {

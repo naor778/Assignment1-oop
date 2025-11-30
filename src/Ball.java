@@ -77,7 +77,7 @@ public class Ball implements Sprite{
     }
 
 
-
+//
     // draw the ball on the given DrawSurface
     @Override
     public void drawOn(DrawSurface surface){

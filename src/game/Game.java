@@ -202,6 +202,9 @@ public class Game {
             }
 
         }
+        if (remainingBlocks.getValue() == 0) {
+            score.increase(100);
+        }
         this.gui.close();
     }
 

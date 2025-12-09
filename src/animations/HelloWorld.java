@@ -1,3 +1,5 @@
+package animations;
+
 /**
  * @author Naor Eliyahu
  */

@@ -1,5 +1,11 @@
-import biuoop.GUI;
-import biuoop.DrawSurface;
+package animations;
+
+import collidables.Block;
+import game.Game;
+import collidables.GameEnvironment;
+import geometry.Point;
+import geometry.Rectangle;
+
 import java.awt.Color;
 
 public class Main {

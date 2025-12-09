@@ -1,3 +1,5 @@
+package animations;
+
 import biuoop.GUI;
 import biuoop.DrawSurface;
 

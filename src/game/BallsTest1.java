@@ -1,5 +1,9 @@
+package game;
+
 import biuoop.GUI;
 import biuoop.DrawSurface;
+import geometry.Point;
+import sprites.Ball;
 
 
 public class BallsTest1 {

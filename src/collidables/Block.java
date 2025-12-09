@@ -1,15 +1,43 @@
+package collidables;
+
 import biuoop.DrawSurface;
-
+import game.Game;
+import geometry.Point;
+import geometry.Rectangle;
+import listeners.HitListener;
+import listeners.HitNotifier;
+import sprites.Ball;
+import sprites.Sprite;
+import sprites.Velocity;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Block implements Collidable ,Sprite {
-
+public class Block implements Collidable, Sprite , HitNotifier {
+    private List<HitListener> hitListeners = new ArrayList<>();
     private Rectangle rectangle;
     private Color color;
 
     public Block(Rectangle rectangle, Color color) {
         this.rectangle = rectangle;
         this.color = color;
+    }
+    @Override
+    public void addHitListener(HitListener hl) {
+        this.hitListeners.add(hl);
+    }
+
+    @Override
+    public void removeHitListener(HitListener hl) {
+        this.hitListeners.remove(hl);
+    }
+
+    private void notifyHit(Ball hitter) {
+
+        List<HitListener> listeners = new ArrayList<>(this.hitListeners);
+        for (HitListener hl : listeners) {
+            hl.hitEvent(this, hitter);
+        }
     }
 
     @Override
@@ -18,7 +46,8 @@ public class Block implements Collidable ,Sprite {
     }
 
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter,Point collisionPoint, Velocity currentVelocity) {
+        System.out.println("Block.hit called at (" + collisionPoint.getX() + ", " + collisionPoint.getY() + ")");
         double x = collisionPoint.getX();
         double y = collisionPoint.getY();
 
@@ -46,7 +75,7 @@ public class Block implements Collidable ,Sprite {
         if (hitTop || hitBottom) {
             dy = -dy;
         }
-
+      this.notifyHit(hitter);
         return new Velocity(dx, dy);
     }
 
@@ -76,6 +105,10 @@ public class Block implements Collidable ,Sprite {
     public void addToGame(Game g) {
         g.addSprite(this);
         g.addCollidable(this);
+    }
+    public void removeFromGame(Game game) {
+        game.removeCollidable(this);
+        game.removeSprite(this);
     }
 
 

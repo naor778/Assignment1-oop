@@ -1,3 +1,5 @@
+package sprites;
+
 import biuoop.DrawSurface;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,10 @@
+package game;
+
 import biuoop.GUI;
 import biuoop.DrawSurface;
+import geometry.Line;
+import geometry.Point;
+
 import java.awt.Color;
 import java.util.Random;
 

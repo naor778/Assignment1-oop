@@ -1,3 +1,8 @@
+package game;
+
+import geometry.Line;
+import geometry.Point;
+import geometry.Rectangle;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

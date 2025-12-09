@@ -1,7 +1,18 @@
-import java.awt.*;
-import biuoop.DrawSurface;
+package sprites;
 
-public class Ball implements Sprite{
+
+import biuoop.DrawSurface;
+import collidables.Block;
+import collidables.Collidable;
+import collidables.CollisionInfo;
+import collidables.GameEnvironment;
+import game.Game;
+import geometry.Line;
+import geometry.Point;
+import geometry.Rectangle;
+import java.awt.Color;
+
+public class Ball implements Sprite {
 
     private static final int SCREEN_WIDTH =800 ;
     private static final int SCREEN_HEIGHT = 600;
@@ -19,7 +30,7 @@ public class Ball implements Sprite{
     }
 
 
-
+    public void removeFromGame(Game game) { game.removeSprite(this); }
 
     // accessors
     public int getX(){
@@ -77,11 +88,11 @@ public class Ball implements Sprite{
             this.center = new Point(newX, newY);
 
             // לחשב מהירות חדשה דרך hit של האובייקט
-            this.velocity = object.hit(collisionPoint, this.velocity);
+            this.velocity = object.hit(this, collisionPoint, this.velocity);
         }
 
         // *** תיקונים נגד "להיכנס לבלוק" ו"בריחה מהמסך" ***
-        fixIfInsideBlocks();
+       fixIfInsideObjects();
         keepInScreen();
     }
 
@@ -113,17 +124,19 @@ public class Ball implements Sprite{
         g.addSprite(this);
     }
     // אם הכדור בטעות נכנס לתוך בלוק – מוציאים אותו החוצה
-    private void fixIfInsideBlocks() {
+    // אם הכדור בטעות נכנס לתוך בלוק – מוציאים אותו החוצה ומתייחסים לזה כמו hit
+    // אם הכדור בטעות נכנס לתוך פאדל או בלוק – מתייחסים לזה כהתנגשות
+    private void fixIfInsideObjects() {
         if (this.gameEnvironment == null) {
             return;
         }
 
         for (Collidable c : this.gameEnvironment.getCollidables()) {
-            Rectangle rect = c.getCollisionRectangle();
-            if (rect == null) {
+            if (c == null || c.getCollisionRectangle() == null) {
                 continue;
             }
 
+            geometry.Rectangle rect = c.getCollisionRectangle();
             double left   = rect.getUpperLeft().getX();
             double top    = rect.getUpperLeft().getY();
             double right  = left + rect.getWidth();
@@ -132,12 +145,13 @@ public class Ball implements Sprite{
             double x = this.center.getX();
             double y = this.center.getY();
 
-            // אם המרכז *לא* בתוך המלבנים – אין בעיה
+            // האם מרכז הכדור *בתוך* המלבן?
             if (x <= left || x >= right || y <= top || y >= bottom) {
                 continue;
             }
 
-            // הכדור נמצא בתוך בלוק -> מוציאים אותו לצד הקרוב ביותר
+            // מכאן – הכדור נמצא *בתוך* האובייקט הזה
+
             double distLeft   = x - left;
             double distRight  = right - x;
             double distTop    = y - top;
@@ -145,62 +159,59 @@ public class Ball implements Sprite{
 
             double min = Math.min(Math.min(distLeft, distRight), Math.min(distTop, distBottom));
             double eps = 0.1;
-
-            double dx = this.velocity.getDx();
-            double dy = this.velocity.getDy();
+            Point collisionPoint;
 
             if (min == distLeft) {
-                // מוציאים לצד שמאל של הבלוק
+                collisionPoint = new Point(left, y);
                 this.center = new Point(left - this.r - eps, y);
-                dx = -Math.abs(dx);
             } else if (min == distRight) {
-                // מוציאים לצד ימין של הבלוק
+                collisionPoint = new Point(right, y);
                 this.center = new Point(right + this.r + eps, y);
-                dx = Math.abs(dx);
             } else if (min == distTop) {
-                // מוציאים למעלה
+                collisionPoint = new Point(x, top);
                 this.center = new Point(x, top - this.r - eps);
-                dy = -Math.abs(dy);
             } else { // bottom
-                // מוציאים למטה
+                collisionPoint = new Point(x, bottom);
                 this.center = new Point(x, bottom + this.r + eps);
-                dy = Math.abs(dy);
             }
 
-            this.velocity = new Velocity(dx, dy);
+
+            this.velocity = c.hit(this, collisionPoint, this.velocity);
+
+
+            break;
+
+
+
         }
     }
+
+
     private void keepInScreen() {
         double x = this.center.getX();
         double y = this.center.getY();
-        double dx = this.velocity.getDx();
-        double dy = this.velocity.getDy();
         boolean changed = false;
 
         if (x - this.r < 0) {
             x = this.r;
-            dx = Math.abs(dx);
             changed = true;
         }
         if (x + this.r > SCREEN_WIDTH) {
             x = SCREEN_WIDTH - this.r;
-            dx = -Math.abs(dx);
             changed = true;
         }
         if (y - this.r < 0) {
             y = this.r;
-            dy = Math.abs(dy);
             changed = true;
         }
         if (y + this.r > SCREEN_HEIGHT) {
             y = SCREEN_HEIGHT - this.r;
-            dy = -Math.abs(dy);
             changed = true;
         }
 
         if (changed) {
             this.center = new Point(x, y);
-            this.velocity = new Velocity(dx, dy);
+            // לא נוגעים ב-velocity!
         }
     }
 

@@ -1,4 +1,8 @@
-    public class CollisionInfo {
+package collidables;
+
+import geometry.Point;
+
+public class CollisionInfo {
 
         private Point collisionPoint;
         private Collidable collisionObject;

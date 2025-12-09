@@ -1,5 +1,11 @@
+package sprites;
+
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
+import collidables.Collidable;
+import game.Game;
+import geometry.Point;
+import geometry.Rectangle;
 
 import java.awt.Color;
 
@@ -46,7 +52,7 @@ public class Paddle implements Sprite, Collidable {
                 rect.getWidth(), rect.getHeight());
     }
 
-    // Sprite: כל טיק זמן – לבדוק מקשים
+    // sprites.Sprite: כל טיק זמן – לבדוק מקשים
     @Override
     public void timePassed() {
         if (keyboard.isPressed(KeyboardSensor.LEFT_KEY)) {
@@ -57,7 +63,7 @@ public class Paddle implements Sprite, Collidable {
         }
     }
 
-    // Sprite: ציור
+    // sprites.Sprite: ציור
     @Override
     public void drawOn(DrawSurface d) {
         d.setColor(this.color);
@@ -71,14 +77,15 @@ public class Paddle implements Sprite, Collidable {
         d.drawRectangle(x, y, w, h);
     }
 
-    // Collidable
+    // collidables.Collidable
     @Override
     public Rectangle getCollisionRectangle() {
         return this.rect;
     }
 
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit( Ball hitter,Point collisionPoint, Velocity currentVelocity) {
+        System.out.println("Paddle.hit at (" + collisionPoint.getX() + "," + collisionPoint.getY() + ")");
         double hitX = collisionPoint.getX();
 
         double paddleX = this.rect.getUpperLeft().getX();
@@ -128,6 +135,7 @@ public class Paddle implements Sprite, Collidable {
         }
 
         // בונים מהירות חדשה לפי הזווית והגודל
+
         return Velocity.fromAngleAndSpeed(angle, speed);
     }
 

@@ -1,3 +1,9 @@
+package collidables;
+
+import geometry.Line;
+import geometry.Point;
+import geometry.Rectangle;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -12,6 +18,10 @@ public class GameEnvironment {
     public List<Collidable> getCollidables() {
         return this.collidables;
     }
+    public void removeCollidable(Collidable c) {
+        this.collidables.remove(c);
+    }
+
 
     // add the given collidable to the environment.
     public void addCollidable(Collidable c) {

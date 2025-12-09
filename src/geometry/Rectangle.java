@@ -1,3 +1,5 @@
+package geometry;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +67,7 @@ public class Rectangle {
     }
     private boolean containsPoint(List<Point> list, Point p) {
         for (Point existing : list) {  // loop on the List  while
-            if (existing.equals(p)) {  // useing the metod of equals of Point class
+            if (existing.equals(p)) {  // useing the metod of equals of geometry.Point class
                 return true;
             }
         }

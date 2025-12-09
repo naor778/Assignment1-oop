@@ -1,13 +1,27 @@
+package game;
+
 import biuoop.GUI;
 import biuoop.DrawSurface;
-import biuoop.Sleeper;
+import collidables.Block;
+import collidables.Collidable;
+import collidables.GameEnvironment;
+import geometry.Point;
+import geometry.Rectangle;
 
-import java.awt.Color;
+import listeners.BallRemover;
+import listeners.BlockRemover;
+import listeners.PrintingHitListener;
+import listeners.ScoreTrackingListener;
+import sprites.*;
+
 
 public class Game {
     private SpriteCollection sprites;
     private GameEnvironment environment;
     private GUI gui;
+    private Counter remainingBlocks;
+    private Counter remainingBalls;
+    private Counter score;
 
 
     private int width = 800;
@@ -16,7 +30,7 @@ public class Game {
     public Game() {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
-        this.gui = new GUI("My Game", width, height);
+        this.gui = new GUI("My game.Game", width, height);
     }
 
 
@@ -34,11 +48,21 @@ public class Game {
     public int getHeight() {
         return height;
     }
+    public void removeCollidable(Collidable c) {
+        this.environment.removeCollidable(c);
+    }
+
+    public void removeSprite(Sprite s) {
+        this.sprites.removeSprite(s);
+    }
+
 
 
     // פונקציה שעושה את כל בניית העולם – בלוקים, גבולות, כדור וכו'
     public void initialize() {
         int borderThickness = 20;
+
+
 
         // ========= גבולות המסך =========
         Block top = new Block(
@@ -60,6 +84,26 @@ public class Game {
         bottom.addToGame(this);
         left.addToGame(this);
         right.addToGame(this);
+
+
+        this.remainingBlocks = new Counter(0);
+        this.remainingBalls = new Counter(0);
+        this.score = new Counter(0);
+        BallRemover ballRemover = new BallRemover(this, this.remainingBalls);
+        BlockRemover blockRemover = new BlockRemover(this, this.remainingBlocks);
+        PrintingHitListener printer = new PrintingHitListener();
+        ScoreTrackingListener scoreTracker = new ScoreTrackingListener(this.score);
+        bottom.addHitListener(ballRemover);
+
+
+
+        Rectangle scoreRect = new Rectangle(
+                new Point(0, borderThickness),  // מתחת ל-border העליון
+                width,
+                borderThickness);
+
+        ScoreIndicator scoreIndicator = new ScoreIndicator(scoreRect, this.score);
+        scoreIndicator.addToGame(this);
 
         // ========= בלוקים למעלה (pattern) =========
         int blockWidth = 50;
@@ -87,6 +131,11 @@ public class Game {
                         new Rectangle(new Point(x, y), blockWidth, blockHeight),
                         rowColor);
                 b.addToGame(this);
+
+                b.addHitListener(blockRemover);
+                b.addHitListener(scoreTracker);
+                b.addHitListener(printer);       // אופציונלי רק לדיבוג
+                this.remainingBlocks.increase(1);
             }
         }
 
@@ -113,12 +162,14 @@ public class Game {
         ball1.setVelocity(Velocity.fromAngleAndSpeed(320, 5));
         ball1.setGameEnvironment(this.environment);
         ball1.addToGame(this);
+        this.remainingBalls.increase(1);
 
         // כדור שני
         Ball ball2 = new Ball(new Point(450, 300), 7, java.awt.Color.PINK);
         ball2.setVelocity(Velocity.fromAngleAndSpeed(40, 5));
         ball2.setGameEnvironment(this.environment);
         ball2.addToGame(this);
+        this.remainingBalls.increase(1);
     }
 
     // לופ האנימציה
@@ -127,12 +178,14 @@ public class Game {
         int framesPerSecond = 60;
         int millisecondsPerFrame = 1000 / framesPerSecond;
 
-        while (true) {
+        while (this.remainingBlocks.getValue() > 0
+                && this.remainingBalls.getValue() > 0) {
             long startTime = System.currentTimeMillis();
 
             DrawSurface d = gui.getDrawSurface();
 
             // רקע
+
             d.setColor(java.awt.Color.BLUE);
             d.fillRectangle(0, 0, width, height);
 
@@ -147,7 +200,9 @@ public class Game {
             if (milliSecondLeftToSleep > 0) {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
+
         }
+        this.gui.close();
     }
 
-}
+    }

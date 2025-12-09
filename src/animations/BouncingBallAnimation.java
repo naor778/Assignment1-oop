@@ -1,6 +1,11 @@
+package animations;
+
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
+import geometry.Point;
+import sprites.Ball;
+import sprites.Velocity;
 
 import java.awt.*;
 
@@ -17,13 +22,13 @@ public class BouncingBallAnimation {
         double dx = Double.parseDouble(args[2]);
         double dy = Double.parseDouble(args[3]);
 
-        Point start = new Point(x, y);
+        geometry.Point start = new Point(x, y);
 
         drawAnimation(start, dx, dy);
 
     }
 
-    static private void drawAnimation(Point start, double dx, double dy) {
+    static private void drawAnimation(geometry.Point start, double dx, double dy) {
         GUI gui = new GUI("title",200,200);
         Sleeper sleeper = new Sleeper();
         Ball ball = new Ball(start, 30, Color.BLACK);
@@ -45,7 +50,7 @@ public class BouncingBallAnimation {
         java.util.Random rand = new java.util.Random();
         while (true) {
             DrawSurface d = gui.getDrawSurface();
-            Ball ball = new Ball(new Point(rand.nextInt(200), rand.nextInt(200)),30, java.awt.Color.BLACK);
+            Ball ball = new Ball(new geometry.Point(rand.nextInt(200), rand.nextInt(200)),30, java.awt.Color.BLACK);
             ball.drawOn(d);
             gui.show(d);
             sleeper.sleepFor(50);  // wait for 50 milliseconds.

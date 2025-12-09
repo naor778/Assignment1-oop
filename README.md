@@ -4,15 +4,15 @@ This project is an implementation of Object-Oriented Programming fundamentals as
 The assignment includes creating basic geometric classes and implementing several graphical animations using the biuoop library.
 📂 Project Structure:
 src/
- ├── Point.java
- ├── Line.java
- ├── Velocity.java
- ├── Ball.java
- ├── HelloWorld.java
- ├── BouncingBallAnimation.java
- ├── MultipleBouncingBallsAnimation.java
- ├── MultipleFramesBouncingBallsAnimation.java
- ├── AbstractArtDrawing.java
+ ├── geometry.Point.java
+ ├── geometry.Line.java
+ ├── sprites.Velocity.java
+ ├── sprites.Ball.java
+ ├── animations.HelloWorld.java
+ ├── animations.BouncingBallAnimation.java
+ ├── animations.MultipleBouncingBallsAnimation.java
+ ├── animations.MultipleFramesBouncingBallsAnimation.java
+ ├── game.AbstractArtDrawing.java
  ├── Tests (optional)
 
 
@@ -30,45 +30,45 @@ Handling randomization and velocities
 
 Working with command-line arguments
 
-Point
+geometry.Point
 
 Represents a 2D point.
 
-Main methods:
+animations.Main methods:
 
-double distance(Point other)
+double distance(geometry.Point other)
 
-boolean equals(Point other)
+boolean equals(geometry.Point other)
 
 double getX()
 
 double getY()
 
-Line
+geometry.Line
 
 Represents a line segment between two points.
 
-Main methods:
+animations.Main methods:
 
 double length()
 
-Point middle()
+geometry.Point middle()
 
 Double slope() (returns null for vertical lines)
 
-boolean isIntersecting(Line other)
+boolean isIntersecting(geometry.Line other)
 
-Point intersectionWith(Line other)
+geometry.Point intersectionWith(geometry.Line other)
 
 Helper: inRange(a, b, value)
 
-Velocity
+sprites.Velocity
 
 Represents movement in dx/dy.
 
-Main methods:
+animations.Main methods:
 
-applyToPoint(Point p)
+applyToPoint(geometry.Point p)
 
 getDx()
 
@@ -76,21 +76,21 @@ getDy()
 
 static fromAngleAndSpeed(angle, speed)
 
-Ball
+sprites.Ball
 
 Represents a moving ball in 2D.
 
 Fields:
 
-Point center
+geometry.Point center
 
 int radius
 
 Color color
 
-Velocity velocity
+sprites.Velocity velocity
 
-Main methods:
+animations.Main methods:
 
 drawOn(DrawSurface d)
 
@@ -98,31 +98,31 @@ moveOneStep()
 
 setVelocity(dx, dy)
 
-setVelocity(Velocity v)
+setVelocity(sprites.Velocity v)
 
 getVelocity()
 
 🎬 Animations
-BouncingBallAnimation
+animations.BouncingBallAnimation
 
 Displays a single bouncing ball inside a 200×200 window.
 
 Usage:
-java BouncingBallAnimation x y dx dy
+java animations.BouncingBallAnimation x y dx dy
 
-MultipleBouncingBallsAnimation
+animations.MultipleBouncingBallsAnimation
 
 Creates several balls with random starting positions.
-Ball speed is inversely proportional to size (smaller → faster).
+sprites.Ball speed is inversely proportional to size (smaller → faster).
 
 Usage:
-java MultipleBouncingBallsAnimation 10 5 20 30 50
+java animations.MultipleBouncingBallsAnimation 10 5 20 30 50
 
-MultipleFramesBouncingBallsAnimation
+animations.MultipleFramesBouncingBallsAnimation
 
 Displays two separate animation frames on the same screen, each containing balls with different boundaries.
 
-AbstractArtDrawing
+game.AbstractArtDrawing
 
 Draws random lines and highlights their intersection points.
 
@@ -146,15 +146,15 @@ Compile:
 javac -cp biuoop-1.4.jar -d bin src/*.java
 
 Run:
-java -cp biuoop-1.4.jar;bin MultipleBouncingBallsAnimation 10 20 5 15
+java -cp biuoop-1.4.jar;bin animations.MultipleBouncingBallsAnimation 10 20 5 15
 
 ✔ Notes
 
 All fields are private to enforce encapsulation.
 
-Velocity objects are immutable (no setters).
+sprites.Velocity objects are immutable (no setters).
 
-Ball movement includes full collision detection with boundaries.
+sprites.Ball movement includes full collision detection with boundaries.
 
 Code follows OOP guidelines required in the assignment.
 

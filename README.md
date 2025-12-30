@@ -1,135 +1,108 @@
-# OOP Assignment 4 — Java 2D Arcade Game (BiuOOP)
+# OOP Assignment 4 — Arkanoid / Brick Breaker (Java + BiuOOP)
 
-A portfolio-ready Java project built as **Assignment 4** in an Object-Oriented Programming course. The project implements a small **2D arcade game framework** (animation loop, sprites, collisions, and level flow) using the **BiuOOP** library for rendering and basic GUI.
+A portfolio-ready Java project built as **Assignment 4** in an Object-Oriented Programming course.  
+This project implements an **Arkanoid / Brick Breaker** style 2D game with a clean OOP architecture: animation loop, sprites, collision handling, score tracking, and multiple levels — using **BiuOOP** for rendering and keyboard input.
 
-Tech: Java (recommended 17+), OOP, BiuOOP  
-Focus: Clean architecture, separation of concerns, reusable components
+**Tech:** Java (recommended 17+), OOP, BiuOOP  
+**Window:** 800×600 (title: *Arkanoid*)  
+**Main entry point:** `game.Ass4Game`
 
 ---
 
 ## Why this project matters (for recruiters)
 
 This repository demonstrates:
-- Solid object-oriented design (encapsulation, abstractions, and clear responsibilities)
-- A stable animation/game loop with predictable frame updates
-- Modular collision handling and movement logic
-- A scalable structure that supports adding new sprites/levels with minimal changes
+- Strong object-oriented design (clear responsibilities, modular components)
+- A stable **game loop** (draw → input → update)
+- Modular collision handling (ball vs blocks/walls/paddle)
+- Event-driven architecture using **listeners** (e.g., score & removal logic)
+- A scalable structure that supports adding new levels/sprites with minimal changes
 
 ---
 
-## Main Features
+## Gameplay
 
-- Animation runner (game loop)
-- Sprites rendering & updates
-- Collision detection & response (walls / blocks / paddle / etc., depending on implementation)
-- Level management / game flow
-- Win/Lose end states (if implemented in the assignment)
+Break all blocks to clear a level.  
+If you lose all balls, the game ends.
 
 ---
 
-## Project Structure
+## Controls
 
-Typical layout (may vary slightly depending on the repo):
+- **Left Arrow / Right Arrow**: move the paddle
+- **p / P / פ**: pause
+- **Space**: resume (pause screen) / continue (end screens)
 
+---
+
+## Levels & CLI Arguments
+
+The launcher (`game.Ass4Game`) supports selecting levels by command-line arguments:
+
+- **No arguments** → runs all levels in order: `1 2 3 4`
+- **With arguments** → runs only valid level numbers (invalid values are ignored)
+- **If none of the arguments are valid** → runs all levels
+
+Level mapping:
+- `1` → DirectHit  
+- `2` → WideEasy  
+- `3` → Green3  
+- `4` → FinalFour  
+
+Examples:
+```bash
+# Run all levels
+java -cp "bin:lib/biuoop-1.4.jar" game.Ass4Game
+
+# Run levels 2 and 4 only
+java -cp "bin:lib/biuoop-1.4.jar" game.Ass4Game 2 4
+
+# Invalid args are ignored; if nothing valid remains -> runs all levels
+java -cp "bin:lib/biuoop-1.4.jar" game.Ass4Game abc 9
+
+Project Structure
+Source files are organized by packages:
 .
-├─ src/
-│  ├─ geometry/        # Point/Line/Rectangle and geometry helpers
-│  ├─ sprites/         # Ball, Block, Paddle, Sprite interface
-│  ├─ collision/       # Collidable, HitListener, HitNotifier, etc.
-│  ├─ animations/      # Animation, AnimationRunner, screens (pause/end)
-│  └─ game/            # GameLevel, GameFlow, main entry point
-├─ lib/                # external jars (biuoop-1.4.jar)  (recommended)
-├─ README.md
-└─ .gitignore
+├─ animations/         # Animation framework + screens (pause / win / game over)
+├─ collidables/        # Collidable objects & collision environment
+├─ game/               # Game orchestration (GameLevel, GameFlow) + main (Ass4Game)
+├─ geometry/           # Geometry primitives (Point/Line/Rectangle)
+├─ levels/             # Level definitions (DirectHit, WideEasy, Green3, FinalFour)
+├─ listeners/          # Hit listeners (score tracking, block/ball removers)
+├─ sprites/            # Sprites (Ball, Paddle, indicators, etc.)
+└─ lib/                # Put biuoop-1.4.jar here (recommended)
 
----
+Requirements
+Java 17+ (or the Java version required by your course)
 
-## Requirements
+BiuOOP jar: biuoop-1.4.jar
 
-- Java 17+ (or the Java version required by your course)
-- BiuOOP library: biuoop-1.4.jar
+Dependency setup (recommended)
 
-Dependency setup:
-- Recommended: place the jar at ./lib/biuoop-1.4.jar
-- Alternative: keep the jar in the project root (less clean)
+Create a folder named lib/ and place the jar here:
 
----
+./lib/biuoop-1.4.jar
+Extra Runnable Demos (optional):
+This repo also contains extra runnable classes useful for testing/learning (not the main submission), e.g.:
 
-## Build & Run
+animations.BouncingBallAnimation
 
-### Linux / macOS (Terminal)
-Use ":" as the classpath separator.
+animations.MultipleBouncingBallsAnimation
 
-mkdir -p bin
-find src -name "*.java" > sources.txt
-javac -d bin -cp "lib/biuoop-1.4.jar" @sources.txt
-java -cp "bin:lib/biuoop-1.4.jar" <MAIN_CLASS>
+animations.MultipleFramesBouncingBallsAnimation
 
-### Windows (PowerShell)
-Use ";" as the classpath separator.
+animations.SimpleGuiExample
 
-New-Item -ItemType Directory -Force bin | Out-Null
-$srcs = Get-ChildItem -Recurse -Path src -Filter *.java | ForEach-Object { $_.FullName }
-javac -d bin -cp "lib\biuoop-1.4.jar" $srcs
-java -cp "bin;lib\biuoop-1.4.jar" <MAIN_CLASS>
+animations.HelloWorld
 
-How to find <MAIN_CLASS>:
-Search in src/ for: public static void main(String[] args)
-Then use the fully-qualified name (package.ClassName), for example: game.Main
+game.BallsTest1
 
----
+The main project entry point remains: game.Ass4Game
+Academic Note
 
-## Controls (edit to match your implementation)
+This repository is based on a university assignment (Assignment 4).
+The code was written for learning purposes and refined to be presentable as a portfolio project.
+Author
 
-- Left / Right: move paddle
-- Space: start / continue
-- P: pause (if implemented)
-- Esc: exit (if implemented)
-
----
-
-## Design Notes
-
-This project is organized so that:
-- Rendering and the animation loop are separated from game logic
-- Sprites (drawable/updatable objects) are independent and reusable
-- Collision handling is modular (collidable objects define their own behavior)
-- Level/game flow is extendable (new levels and objects can be added without rewriting the core engine)
-
----
-
-## Suggested Portfolio Upgrades
-
-If you want to push this further as a CV project:
-- Add unit tests for geometry and collision logic
-- Make levels configuration-driven (e.g., JSON/text files)
-- Add GitHub Actions CI to compile on every push
-- Convert the project to Maven/Gradle for cleaner dependency management
-
----
-
-## Repository Hygiene (Professional GitHub)
-
-Recommended .gitignore entries:
-
-.idea/
-*.iml
-bin/
-out/
-target/
-.DS_Store
-Thumbs.db
-
----
-
-## Academic Note
-
-This repository is based on a university assignment (Assignment 4). The code was written by the author for learning purposes and refined to be presentable as a portfolio project.
-
----
-
-## Author
-
-<YOUR_NAME>  
-GitHub: https://github.com/<naor778>  
-
+Naor Eliyahu
+GitHub: https://github.com/naor778

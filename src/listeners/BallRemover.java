@@ -2,23 +2,23 @@ package listeners;
 
 import collidables.Block;
 import game.Counter;
-import game.Game;
+import game.GameLevel;
 import sprites.Ball;
 
 public class BallRemover implements HitListener {
 
-    private Game game;
+    private GameLevel gameLevel;
     private Counter remainingBalls;
 
-    public BallRemover(Game game, Counter remainingBalls) {
-        this.game = game;
+    public BallRemover(GameLevel gameLevel, Counter remainingBalls) {
+        this.gameLevel = gameLevel;
         this.remainingBalls = remainingBalls;
     }
 
     @Override
     public void hitEvent(Block beingHit, Ball hitter) {
         // מסירים את הכדור מהמשחק
-        hitter.removeFromGame(this.game);
+        hitter.removeFromGame(this.gameLevel);
 
         // מעדכנים Counter
         this.remainingBalls.decrease(1);

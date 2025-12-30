@@ -4,9 +4,9 @@ package sprites;
 
 import biuoop.DrawSurface;
 import game.Counter;
-import game.Game;
+import game.GameLevel;
 import geometry.Rectangle;
-import geometry.Point;
+
 import java.awt.Color;
 
 public class ScoreIndicator implements Sprite {
@@ -45,8 +45,8 @@ public class ScoreIndicator implements Sprite {
         // אין לוגיקה – רק מציירים כל פריים
     }
 
-    public void addToGame(Game game) {
-        game.addSprite(this);
+    public void addToGame(GameLevel gameLevel) {
+        gameLevel.addSprite(this);
     }
 }
 

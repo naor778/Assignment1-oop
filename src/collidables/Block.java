@@ -1,7 +1,7 @@
 package collidables;
 
 import biuoop.DrawSurface;
-import game.Game;
+import game.GameLevel;
 import geometry.Point;
 import geometry.Rectangle;
 import listeners.HitListener;
@@ -102,13 +102,13 @@ public class Block implements Collidable, Sprite , HitNotifier {
     public void timePassed() {
 
     }
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
         g.addCollidable(this);
     }
-    public void removeFromGame(Game game) {
-        game.removeCollidable(this);
-        game.removeSprite(this);
+    public void removeFromGame(GameLevel gameLevel) {
+        gameLevel.removeCollidable(this);
+        gameLevel.removeSprite(this);
     }
 
 

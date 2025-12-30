@@ -3,7 +3,7 @@ package sprites;
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 import collidables.Collidable;
-import game.Game;
+import game.GameLevel;
 import geometry.Point;
 import geometry.Rectangle;
 
@@ -141,7 +141,7 @@ public class Paddle implements Sprite, Collidable {
 
 
     // נוח למטלה: להוסיף את הפאדאל למשחק
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
         g.addCollidable(this);
     }

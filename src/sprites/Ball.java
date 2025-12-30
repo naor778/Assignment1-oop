@@ -2,14 +2,13 @@ package sprites;
 
 
 import biuoop.DrawSurface;
-import collidables.Block;
 import collidables.Collidable;
 import collidables.CollisionInfo;
 import collidables.GameEnvironment;
-import game.Game;
+import game.GameLevel;
 import geometry.Line;
 import geometry.Point;
-import geometry.Rectangle;
+
 import java.awt.Color;
 
 public class Ball implements Sprite {
@@ -30,7 +29,7 @@ public class Ball implements Sprite {
     }
 
 
-    public void removeFromGame(Game game) { game.removeSprite(this); }
+    public void removeFromGame(GameLevel gameLevel) { gameLevel.removeSprite(this); }
 
     // accessors
     public int getX(){
@@ -111,6 +110,9 @@ public class Ball implements Sprite {
     public void drawOn(DrawSurface surface){
         surface.setColor(this.color);
         surface.fillCircle(getX(),getY(),getSize());
+        surface.setColor(java.awt.Color.BLACK);
+        surface.drawCircle((int) this.center.getX(), (int) this.center.getY(), getSize());
+
     }
 
     public void setVelocity(double dx, double dy){
@@ -120,7 +122,7 @@ public class Ball implements Sprite {
     public void setGameEnvironment(GameEnvironment gameEnvironment) {
         this.gameEnvironment = gameEnvironment;
     }
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
     }
     // אם הכדור בטעות נכנס לתוך בלוק – מוציאים אותו החוצה
@@ -211,7 +213,7 @@ public class Ball implements Sprite {
 
         if (changed) {
             this.center = new Point(x, y);
-            // לא נוגעים ב-velocity!
+
         }
     }
 

@@ -131,5 +131,5 @@ This repository is based on a university assignment (Assignment 4). The code was
 ## Author
 
 <YOUR_NAME>  
-GitHub: https://github.com/<YOUR_GITHUB_USERNAME>  
-LinkedIn: <YOUR_LINKEDIN_URL>
+GitHub: https://github.com/<naor778>  
+

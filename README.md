@@ -106,7 +106,7 @@ This repo also contains extra runnable classes useful for testing/learning (not 
 The main project entry point remains: `game.Ass4Game`.
 
 ---
-img :
+## Screenshots
 <img width="990" height="783" alt="image" src="https://github.com/user-attachments/assets/193e2396-5a64-4f22-b802-0835ba44e00e" />
 <img width="993" height="771" alt="image" src="https://github.com/user-attachments/assets/49dff448-8a81-4e9b-a753-79e438250711" />
 <img width="1002" height="786" alt="image" src="https://github.com/user-attachments/assets/cccecc01-c0b6-4643-aab0-2d300ae4eb12" />

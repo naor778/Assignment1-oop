@@ -201,6 +201,14 @@ public class GameLevel implements Animation {
             this.running = false;
         }
     }
+    public Counter getRemainingBlocks() {
+        return this.remainingBlocks;
+    }
+
+    public Counter getRemainingBalls() {
+        return this.remainingBalls;
+    }
+
 
     @Override
     public boolean shouldStop() {

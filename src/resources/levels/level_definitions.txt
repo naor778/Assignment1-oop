@@ -1,0 +1,129 @@
+# One simple level from file
+START_LEVEL
+level_name:File Level 1
+ball_velocities:45,5 -45,5
+background:color(lightGray)
+paddle_speed:10
+paddle_width:120
+block_definitions:blocks/basic_blocks.txt
+blocks_start_x:50
+blocks_start_y:150
+row_height:20
+num_blocks:18
+START_BLOCKS
+111111
+222222
+333333
+END_BLOCKS
+END_LEVEL
+# =========================
+# Level 1 - Warm Up (2 balls, 18 blocks)
+# =========================
+START_LEVEL
+level_name:Warm Up
+ball_velocities:45,5 -45,5
+background:color(lightGray)
+paddle_speed:10
+paddle_width:130
+block_definitions:blocks/basic_blocks.txt
+blocks_start_x:50
+blocks_start_y:150
+row_height:20
+num_blocks:18
+START_BLOCKS
+111111
+222222
+333333
+END_BLOCKS
+END_LEVEL
+
+# =========================
+# Level 2 - Three Shot (3 balls, 20 blocks)
+# =========================
+START_LEVEL
+level_name:Three Shot
+ball_velocities:30,6 -30,6 0,6
+background:color(cyan)
+paddle_speed:12
+paddle_width:120
+block_definitions:blocks/basic_blocks.txt
+blocks_start_x:50
+blocks_start_y:130
+row_height:20
+num_blocks:20
+START_BLOCKS
+111111
+222222
+333333
+444444
+END_BLOCKS
+END_LEVEL
+
+# =========================
+# Level 3 - Zig Zag (4 balls, 24 blocks)
+# =========================
+START_LEVEL
+level_name:Zig Zag
+ball_velocities:25,6 -25,6 155,6 -155,6
+background:color(pink)
+paddle_speed:13
+paddle_width:110
+block_definitions:blocks/basic_blocks.txt
+blocks_start_x:50
+blocks_start_y:120
+row_height:20
+num_blocks:24
+START_BLOCKS
+121212
+212121
+343434
+434343
+END_BLOCKS
+END_LEVEL
+
+# =========================
+# Level 4 - Walls (2 balls, 30 blocks)
+# =========================
+START_LEVEL
+level_name:Walls
+ball_velocities:35,7 -35,7
+background:color(orange)
+paddle_speed:14
+paddle_width:100
+block_definitions:blocks/basic_blocks.txt
+blocks_start_x:50
+blocks_start_y:110
+row_height:20
+num_blocks:30
+START_BLOCKS
+555555
+444444
+333333
+222222
+111111
+END_BLOCKS
+END_LEVEL
+
+# =========================
+# Level 5 - Chaos (5 balls, 36 blocks)
+# =========================
+START_LEVEL
+level_name:Chaos
+ball_velocities:20,7 -20,7 0,7 160,7 -160,7
+background:color(yellow)
+paddle_speed:16
+paddle_width:90
+block_definitions:blocks/basic_blocks.txt
+blocks_start_x:50
+blocks_start_y:95
+row_height:20
+num_blocks:36
+START_BLOCKS
+123456
+654321
+112233
+445566
+135246
+246135
+END_BLOCKS
+END_LEVEL

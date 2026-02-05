@@ -1,0 +1,10 @@
+# defaults
+default height:20 width:50 stroke:color(black)
+
+# blocks
+bdef symbol:1 fill:color(red)
+bdef symbol:2 fill:color(blue)
+bdef symbol:3 fill:color(green)
+
+# spaces
+sdef symbol:- width:50

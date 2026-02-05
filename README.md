@@ -1,164 +1,131 @@
-Assignment 1 – OOP (Ariel University)
+# OOP Assignment 4 — Arkanoid / Brick Breaker (Java + BiuOOP)
 
-This project is an implementation of Object-Oriented Programming fundamentals as part of Assignment 1 in the OOP course at Ariel University.
-The assignment includes creating basic geometric classes and implementing several graphical animations using the biuoop library.
-📂 Project Structure:
-src/
- ├── geometry.Point.java
- ├── geometry.Line.java
- ├── sprites.Velocity.java
- ├── sprites.Ball.java
- ├── animations.HelloWorld.java
- ├── animations.BouncingBallAnimation.java
- ├── animations.MultipleBouncingBallsAnimation.java
- ├── animations.MultipleFramesBouncingBallsAnimation.java
- ├── game.AbstractArtDrawing.java
- ├── Tests (optional)
+A portfolio-ready Java project built as **Assignment 4** in an Object-Oriented Programming course.  
+This project implements an **Arkanoid / Brick Breaker** style 2D game with a clean OOP architecture: animation loop, sprites, collision handling, score tracking, and multiple levels — using **BiuOOP** for rendering and keyboard input.
 
+**Tech:** Java (recommended 17+), OOP, BiuOOP  
+**Window:** 800×600 (title: *Arkanoid*)  
+**Main entry point:** `game.Ass4Game`
 
-Implementing classes, fields, constructors, and methods
+---
 
-Practicing encapsulation & information hiding
+## What this project demonstrates
 
-Working with objects and composition
+This repository demonstrates:
+- Strong object-oriented design (clear responsibilities, modular components)
+- A stable game loop (draw → input → update)
+- Modular collision handling (ball vs blocks/walls/paddle)
+- Event-driven architecture using listeners (e.g., score & removal logic)
+- A scalable structure that supports adding new levels/sprites with minimal changes
 
-Understanding vectors, geometry, and intersections
+---
 
-Building animations with the biuoop library
+## Gameplay
 
-Handling randomization and velocities
+Break all blocks to clear a level.  
+If you lose all balls, the game ends.
 
-Working with command-line arguments
+---
 
-geometry.Point
+## Controls
 
-Represents a 2D point.
+- **Left Arrow / Right Arrow:** move the paddle  
+- **p / P / פ:** pause  
+- **Space:** resume (pause screen) / continue (end screens)
 
-animations.Main methods:
+---
 
-double distance(geometry.Point other)
+## Levels & CLI Arguments
 
-boolean equals(geometry.Point other)
+The launcher (`game.Ass4Game`) supports selecting levels by command-line arguments:
 
-double getX()
+- **No arguments** → runs all levels in order: `1 2 3 4`
+- **With arguments** → runs only valid level numbers (invalid values are ignored)
+- **If none of the arguments are valid** → runs all levels
 
-double getY()
+**Level mapping:**
+- `1` → DirectHit  
+- `2` → WideEasy  
+- `3` → Green3  
+- `4` → FinalFour  
 
-geometry.Line
+**Examples:**
+```bash
+# Run all levels
+java -cp "bin:lib/biuoop-1.4.jar" game.Ass4Game
 
-Represents a line segment between two points.
+# Run levels 2 and 4 only
+java -cp "bin:lib/biuoop-1.4.jar" game.Ass4Game 2 4
 
-animations.Main methods:
+# Invalid args are ignored; if nothing valid remains -> runs all levels
+java -cp "bin:lib/biuoop-1.4.jar" game.Ass4Game abc 9
+```
 
-double length()
+---
 
-geometry.Point middle()
+## Project Structure
 
-Double slope() (returns null for vertical lines)
+Source files are organized by packages:
 
-boolean isIntersecting(geometry.Line other)
+```text
+.
+├─ animations/         # Animation framework + screens (pause / win / game over)
+├─ collidables/        # Collidable objects & collision environment
+├─ game/               # Game orchestration (GameLevel, GameFlow) + main (Ass4Game)
+├─ geometry/           # Geometry primitives (Point/Line/Rectangle)
+├─ levels/             # Level definitions (DirectHit, WideEasy, Green3, FinalFour)
+├─ listeners/          # Hit listeners (score tracking, block/ball removers)
+├─ sprites/            # Sprites (Ball, Paddle, indicators, etc.)
+└─ lib/                # Put biuoop-1.4.jar here (recommended)
+```
 
-geometry.Point intersectionWith(geometry.Line other)
+---
 
-Helper: inRange(a, b, value)
+## Requirements
 
-sprites.Velocity
+- Java 17+ (or the Java version required by your course)
+- BiuOOP jar: `biuoop-1.4.jar`
 
-Represents movement in dx/dy.
+### Dependency setup (recommended)
 
-animations.Main methods:
+Create a folder named `lib/` and place the jar here:
+- `./lib/biuoop-1.4.jar`
 
-applyToPoint(geometry.Point p)
+---
 
-getDx()
+## Extra Runnable Demos (optional)
 
-getDy()
+This repo also contains extra runnable classes useful for testing/learning (not the main submission), e.g.:
+- `animations.BouncingBallAnimation`
+- `animations.MultipleBouncingBallsAnimation`
+- `animations.MultipleFramesBouncingBallsAnimation`
+- `animations.SimpleGuiExample`
+- `animations.HelloWorld`
+- `game.BallsTest1`
 
-static fromAngleAndSpeed(angle, speed)
+The main project entry point remains: `game.Ass4Game`.
 
-sprites.Ball
+---
+## Screenshots
+<img width="990" height="783" alt="image" src="https://github.com/user-attachments/assets/193e2396-5a64-4f22-b802-0835ba44e00e" />
+<img width="993" height="771" alt="image" src="https://github.com/user-attachments/assets/49dff448-8a81-4e9b-a753-79e438250711" />
+<img width="1002" height="786" alt="image" src="https://github.com/user-attachments/assets/cccecc01-c0b6-4643-aab0-2d300ae4eb12" />
+<img width="991" height="778" alt="image" src="https://github.com/user-attachments/assets/63a44296-9c8f-4c27-adde-7b4853ed4d3c" />
+<img width="996" height="782" alt="image" src="https://github.com/user-attachments/assets/2a3fa317-cbdc-40f8-946c-5848c27a7f8b" />
+<img width="989" height="776" alt="image" src="https://github.com/user-attachments/assets/3136e0ee-0241-4f71-81d0-c0552f0014eb" />
 
-Represents a moving ball in 2D.
 
-Fields:
 
-geometry.Point center
+ןצ
 
-int radius
+## Academic Note
 
-Color color
+This repository is based on a university assignment (Assignment 4).  
+The code was written for learning purposes and refined to be presentable as a portfolio project.
 
-sprites.Velocity velocity
+---
 
-animations.Main methods:
+## Author
 
-drawOn(DrawSurface d)
-
-moveOneStep()
-
-setVelocity(dx, dy)
-
-setVelocity(sprites.Velocity v)
-
-getVelocity()
-
-🎬 Animations
-animations.BouncingBallAnimation
-
-Displays a single bouncing ball inside a 200×200 window.
-
-Usage:
-java animations.BouncingBallAnimation x y dx dy
-
-animations.MultipleBouncingBallsAnimation
-
-Creates several balls with random starting positions.
-sprites.Ball speed is inversely proportional to size (smaller → faster).
-
-Usage:
-java animations.MultipleBouncingBallsAnimation 10 5 20 30 50
-
-animations.MultipleFramesBouncingBallsAnimation
-
-Displays two separate animation frames on the same screen, each containing balls with different boundaries.
-
-game.AbstractArtDrawing
-
-Draws random lines and highlights their intersection points.
-
-📦 External Library
-
-Project uses:
-
-biuoop-1.4.jar
-
-
-Library provides:
-
-GUI management
-
-DrawSurface graphics
-
-Sleeper for timing
-
-▶ How to Compile & Run
-Compile:
-javac -cp biuoop-1.4.jar -d bin src/*.java
-
-Run:
-java -cp biuoop-1.4.jar;bin animations.MultipleBouncingBallsAnimation 10 20 5 15
-
-✔ Notes
-
-All fields are private to enforce encapsulation.
-
-sprites.Velocity objects are immutable (no setters).
-
-sprites.Ball movement includes full collision detection with boundaries.
-
-Code follows OOP guidelines required in the assignment.
-
-✏ Author
-
-Naor Eliyahu
-Ariel University – Computer Science
+**Naor Eliyahu**  
+GitHub: https://github.com/naor778
